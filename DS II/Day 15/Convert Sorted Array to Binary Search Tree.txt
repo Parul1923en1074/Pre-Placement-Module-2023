@@ -1,0 +1,30 @@
+class Solution {
+    public TreeNode sortedArrayToBST(int[] nums) {
+        TreeNode root = minimal_tree_func(nums);
+        return root;
+    }
+    public static TreeNode minimal_tree_func(int[] arr) {
+        int mid;
+        if (arr.length % 2 == 1) {
+            mid = arr.length / 2;
+        } else {
+            if (arr.length / 2 > 0) {
+                mid = arr.length / 2 - 1;
+            } else {
+                mid = arr.length / 2;
+            }
+        }
+        
+        TreeNode root = null;
+        if (arr.length != 0) {
+            root = new TreeNode(arr[mid]);
+        }
+        if (arr.length > 1) {
+            root.left = minimal_tree_func(Arrays.copyOfRange(arr, 0, mid));
+            root.right = minimal_tree_func(Arrays.copyOfRange(arr, mid + 1, arr.length));
+        }
+        
+        return root;
+    }
+}
+

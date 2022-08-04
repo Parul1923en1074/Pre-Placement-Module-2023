@@ -1,0 +1,18 @@
+class Solution {
+   int idx = 0;
+   public TreeNode buildTree(int[] preorder, int[] inorder) {
+    return helper(preorder,inorder,0,preorder.length-1);
+  }
+
+   TreeNode helper(int[] pre,int[] in,int s,int e){
+    if(s>e) return null;
+    TreeNode root = new TreeNode(pre[idx++]);
+    int i=0;
+    while(in[i]!=root.val){
+        i++;
+    }
+    root.left=helper(pre,in,s,i-1);
+    root.right=helper(pre,in,i+1,e);
+    return root;
+    }
+}
