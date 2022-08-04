@@ -1,0 +1,53 @@
+import java.util.Optional;
+
+class Solution {
+    
+    public int kthSmallest(TreeNode root, int k) {
+        Optional<Integer> result = searchKthValue(root, k, new Counter());
+        
+        return result.get();
+    }
+    
+    private Optional<Integer> searchKthValue(TreeNode node, int k, Counter counter) {
+        if(node == null) {
+            return Optional.empty();
+        }
+        
+        Optional<Integer> result;
+        // left
+        result = searchKthValue(node.left, k, counter);
+        if(result.isPresent()) {
+            return result;
+        }
+        
+        // self
+        counter.add();
+        if(counter.equals(k)) {
+            return Optional.of(node.val);
+        }
+        
+        // right
+        result = searchKthValue(node.right, k, counter);
+        if(result.isPresent()) {
+            return result;
+        }
+        
+        return Optional.empty();
+    }
+}
+
+class Counter {
+    private int count;
+    
+    public Counter() {
+        this.count = 0;
+    }
+    
+    public void add() {
+        this.count++;
+    }
+    
+    public boolean equals(int value) {
+        return this.count == value;
+    }
+}
