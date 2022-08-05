@@ -1,0 +1,84 @@
+public class Codec {
+
+     Encodes a tree to a single string.
+    public String serialize(TreeNode root) {
+        if(root == null){
+            return ;
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.valueOf(root.val));
+        
+        ArrayListTreeNode tn = new ArrayList();
+        tn.add(root);
+        
+        while(tn.size()  0){
+            ArrayListTreeNode temp = new ArrayList();
+            
+            for(TreeNode tnodestn){
+                
+                if(tnodes.left == null){
+                    sb.append(,null);
+                }else{
+                    sb.append(, + tnodes.left.val);
+                    temp.add(tnodes.left);
+                }
+                
+                if(tnodes.right == null){
+                    sb.append(,null);
+                }else{
+                    sb.append(, + tnodes.right.val);
+                    temp.add(tnodes.right);
+                }
+                
+            }
+            
+            tn = temp;
+        }
+        
+        return sb.toString();
+    }
+
+     Decodes your encoded data to tree.
+    public TreeNode deserialize(String data) {
+        if(data.equals()){
+            return null;
+        }
+        
+        String[] no = data.split(,);
+        TreeNode root = new TreeNode(Integer.valueOf(no[0]));
+        
+        int counter = 0;
+        ArrayListTreeNode currCon = new ArrayListTreeNode();
+        currCon.add(root);
+        while(currCon.size()  0){
+            ArrayListTreeNode temp = new ArrayList();
+            
+            int startRange = counter + 1;
+            int endRange = counter + currCon.size()  2;
+            
+            while(startRange = endRange){
+                
+                TreeNode parent = currCon.get((startRange-counter-1)2);
+                boolean isLeft = ((startRange-counter-1)%2 == 0);
+                if(!no[startRange].equals(null)){
+                    if(isLeft){
+                        parent.left = new TreeNode(Integer.valueOf(no[startRange]));
+                        temp.add(parent.left);
+                    }else{
+                        parent.right = new TreeNode(Integer.valueOf(no[startRange]));
+                        temp.add(parent.right);
+                    }
+                }
+                
+                startRange++;
+            }
+            
+            counter = endRange;
+            currCon = temp;
+        }
+        
+        
+        return root;
+    }
+}
