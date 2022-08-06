@@ -1,0 +1,47 @@
+class Solution {
+    /**
+    DP: int[][] memo. M[i][j] represents, the min edit distance between word1[0, i] and word2[0, j] (i, j are included.)
+    
+    base case: (1) M[0][j] = j (2) M[i][0] = i
+    induction rule:
+        case 1: if (word1.charAt(i) == word2.charAt(j)), M[i][j] = M[i + 1][j + 1];
+        case 2: otherwise:
+            option 1: delete char at i: M[i][j] = M[i - 1][j] + 1;
+            option 2: replace char at i: M[i][j] = M[i - 1][j - 1] + 1;
+            option 3: insert char at i: M[i][j] = M[i][j - 1] + 1;
+            
+    return M[i + 1][j + 1];
+    */
+    
+    public int minDistance(String word1, String word2) {
+        if (word1 == null || word1.length() == 0) return word2.length();
+        if (word2 == null || word2.length() == 0) return word1.length();
+        
+        int m = word1.length(), n = word2.length();
+        int[][] memo = new int[m + 1][n + 1];
+        
+        // base case 1: word1 --> "" (by deletion)
+        for (int i = 0; i <= m; i++) {
+            memo[i][0] = i;
+        }
+		// base case 2: "" --> word2 (by insertion)
+        for (int j = 0; j <= n; j++) {
+            memo[0][j] = j;
+        }
+        
+        // induction rule:
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (word1.charAt(i - 1) == word2.charAt(j - 1)) {
+                    memo[i][j] = memo[i - 1][j - 1]; // do nothing;
+                } else {
+                    int delete = memo[i - 1][j] + 1;
+                    int replace = memo[i - 1][j - 1] + 1;
+                    int insert = memo[i][j - 1] + 1;
+                    memo[i][j] = Math.min(delete, Math.min(replace, insert));
+                }
+            }
+        }
+        return memo[m][n];
+    }
+}
