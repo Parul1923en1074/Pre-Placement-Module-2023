@@ -1,0 +1,24 @@
+class Solution {
+
+public int findJudge(int n, int[][] trust) {
+    
+    //judge is not trust => is not -1
+    //all human is tust judge => n - 1 = count
+    int[] human = new int[n + 1];
+    
+    for(int i = 0; i < trust.length; i++) {
+        
+        human[trust[i][0]] = -1;
+        
+        if(human[trust[i][1]] != -1) {
+            human[trust[i][1]]++;
+        }
+    }
+
+    for(int i = 1; i < human.length; i++) { 
+        if(human[i] == n - 1) return i;
+    }
+    
+return -1;
+}
+}
