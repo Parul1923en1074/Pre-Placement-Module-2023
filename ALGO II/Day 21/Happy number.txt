@@ -1,0 +1,18 @@
+class Solution {
+public boolean isHappy(int n){
+HashSet x = new HashSet();
+x.add(n);
+while(n != 1){
+int sum = 0;
+while(n > 0){
+int r = n%10;
+sum = sum + r*r;
+n = n/10;
+}
+if(x.contains(sum)) return false;
+x.add(sum);
+n = sum;
+}
+return true;
+}
+}
